@@ -1,18 +1,21 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
+import requests
 
-chrome_options = Options()
-chrome_options.binary_location = "/usr/bin/google-chrome"
-chrome_options.add_argument("--headless")  # Background mode
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
+cookies = {
+    'c_user': '61573484631602',
+    'xs': '5:gfrDLgHvqi00uQ:2:1742097762:-1:10732',
+    'fr': '0PBZ9BRBK2g8y3pRi.AWXei5hRq80d8vPSIcrPfW1GBS5aZNyvW8-rQg.Bnzy5l..AAA.0.0.Bn1k9F.AWVg1z2f_-k',
+    'datr': 'ZS7PZ9DpPf9oazWHMij9DC-e',
+    'sb': 'ZS7PZ86Lu8JdDaFhIIxbM3Fy'
+}
 
-print("[+] Setting up ChromeDriver")
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
 
-try:
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    print("[+] ChromeDriver initialized successfully")
-except Exception as e:
-    print(f"[-] Error initializing ChromeDriver: {e}")
+response = requests.get("https://www.facebook.com/api/graphql/", cookies=cookies, headers=headers)
+
+if 'fb_dtsg' in response.text:
+    fb_dtsg = response.text.split('"fb_dtsg":{"token":"')[1].split('"')[0]
+    print("[+] fb_dtsg:", fb_dtsg)
+else:
+    print("[-] fb_dtsg Not Found")
