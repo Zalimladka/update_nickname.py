@@ -14,8 +14,8 @@ headers = {
 
 response = requests.get("https://www.facebook.com/api/graphql/", cookies=cookies, headers=headers)
 
-if 'fb_dtsg' in response.text:
-    fb_dtsg = response.text.split('"fb_dtsg":{"token":"')[1].split('"')[0]
+if "fb_dtsg" in response.text:
+    fb_dtsg = response.text.split('"DTSGInitialData",[],{"token":"')[1].split('"')[0]
     print("[+] fb_dtsg:", fb_dtsg)
 else:
     print("[-] fb_dtsg Not Found")
