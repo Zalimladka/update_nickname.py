@@ -1,29 +1,21 @@
-import json
 import requests
+import json
+import re
 
-# Load Cookies from cookies.json
+# Cookie load karna
 with open('cookies.json', 'r') as f:
     cookies = json.load(f)
 
-# Convert cookies to requests format
-cookies_str = '; '.join([f"{key}={value}" for key, value in cookies.items()])
 headers = {
-    'Cookie': cookies_str,
-    'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
-# Send Request to m.facebook.com
-response = requests.get('https://m.facebook.com/', headers=headers)
+response = requests.get('https://www.facebook.com/', cookies=cookies, headers=headers)
 
-# Extract fb_dtsg
-if '"fb_dtsg"' in response.text:
-    fb_dtsg = response.text.split('"fb_dtsg"')[1].split('value="')[1].split('"')[0]
-    print(f"[+] fb_dtsg: {fb_dtsg}")
-    
-    # Save in cookies.json
-    cookies['fb_dtsg'] = fb_dtsg
-    with open('cookies.json', 'w') as f:
-        json.dump(cookies, f, indent=4)
-    print("[+] fb_dtsg successfully saved in cookies.json ✅")
+# fb_dtsg ko hidden form me extract karna
+fb_dtsg = re.search(r'{"token":"(.*?)"}', response.text)
+
+if fb_dtsg:
+    print("[+] fb_dtsg Found:", fb_dtsg.group(1))
 else:
-    print("[-] fb_dtsg not found!")
+    print("[-] fb_dtsg Not Found")
