@@ -1,7 +1,23 @@
-{
-  "c_user": "61573484631602",
-  "xs": "5:gfrDLgHvqi00uQ:2:1742097762:-1:10732",
-  "fr": "0PBZ9BRBK2g8y3pRi.AWXei5hRq80d8vPSIcrPfW1GBS5aZNyvW8-rQg.Bnzy5l..AAA.0.0.Bn1k9F.AWVg1z2f_-k",
-  "datr": "ZS7PZ9DpPf9oazWHMij9DC-e",
-  "sb": "ZS7PZ86Lu8JdDaFhIIxbM3Fy"
+import requests
+
+cookies = {
+    'datr': 'ZS7PZ9DpPf9oazWHMij9DC-e',
+    'sb': 'ZS7PZ86Lu8JdDaFhIIxbM3Fy',
+    'locale': 'en_US',
+    'c_user': '61573484631602',
+    'xs': '5%3AgfrDLgHvqi00uQ%3A2%3A1742097762%3A-1%3A10732',
+    'fr': '0PBZ9BRBK2g8y3pRi.AWXei5hRq80d8vPSIcrPfW1GBS5aZNyvW8-rQg.Bnzy5l..AAA.0.0.Bn1k9F.AWVg1z2f_-k',
+    'presence': 'C%7B%22lm3%22%3A%22g.7032090300237636%22%2C%22t3%22%3A%5B%5D%2C%22utc3%22%3A1742098260377%2C%22v%22%3A1%7D',
+    'wd': '712x1342'
 }
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
+
+response = requests.get('https://www.facebook.com/', cookies=cookies, headers=headers)
+
+if 'home_icon' in response.text:
+    print("[+] Cookie is still valid ✅")
+else:
+    print("[-] Cookie expired 😭")
