@@ -1,21 +1,44 @@
-import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 import json
-import re
+import time
 
-# Cookie load karna
+# Cookies ko load karna
 with open('cookies.json', 'r') as f:
     cookies = json.load(f)
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-}
+# Chrome headless mode
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
-response = requests.get('https://www.facebook.com/', cookies=cookies, headers=headers)
+# Browser open
+driver = webdriver.Chrome(options=chrome_options)
+driver.get('https://www.facebook.com')
 
-# fb_dtsg ko hidden form me extract karna
-fb_dtsg = re.search(r'{"token":"(.*?)"}', response.text)
+# Cookies inject karna
+for cookie in cookies:
+    driver.add_cookie({
+        'name': cookie,
+        'value': cookies[cookie],
+        'domain': '.facebook.com'
+    })
+
+# Page ko reload karna
+driver.get('https://www.facebook.com')
+
+# Thoda wait karo (important)
+time.sleep(5)
+
+# fb_dtsg ko extract karna
+fb_dtsg = driver.find_element(By.NAME, 'fb_dtsg').get_attribute('value')
 
 if fb_dtsg:
-    print("[+] fb_dtsg Found:", fb_dtsg.group(1))
+    print("[+] fb_dtsg Found:", fb_dtsg)
 else:
     print("[-] fb_dtsg Not Found")
+
+# Browser ko band karna
+driver.quit()
