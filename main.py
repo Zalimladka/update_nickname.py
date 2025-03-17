@@ -1,10 +1,9 @@
 import requests
 import json
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from undetected_chromedriver import Chrome
+import undetected_chromedriver as uc
+import chromedriver_autoinstaller
 
-# Load config.json file
+# Load config.json
 with open("config.json", "r") as f:
     config = json.load(f)
 
@@ -12,15 +11,11 @@ token = config["token"]
 group_id = config["group_id"]
 nickname = config["nickname"]
 
-# Selenium Setup
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.binary_location = "/usr/bin/chromium"
+# Install correct Chrome Driver
+chromedriver_autoinstaller.install()
 
-# Launch Chrome
-driver = Chrome(options=chrome_options)
+# Launch Undetected Chrome
+driver = uc.Chrome(headless=True)
 driver.get(f"https://graph.facebook.com/{group_id}?access_token={token}")
 
 # Change Nickname API Request
