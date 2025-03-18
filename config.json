@@ -1,6 +1,5 @@
 {
-  "token": "EAABwzLixnjYBOxftzHOZCYoZB9E1KnwQkZB3QhyD2FRMeGEmvu9e1KDcCWvBWrHQreDjiIEhZCr1xaZAmXqefxLgeeQKpGOsXs1PZCV2ecOwlSsO1VFSbBZCf5OrLaZCfHZBQMImUDjithVJZBHYsyIH68IvxsUg1osjKwnqZAPt2yhyIF9kujAeWZBRIG9GdMJ3iRbYUNoZD",  
-  "group_id": "7032090300237636",
-  "nickname": "🔥Mafia Bot🔥"
+  "access_token": "your_facebook_token_here",
+  "group_ids": ["group_id_1", "group_id_2", "group_id_3"],
+  "update_interval": 300
 }
-
