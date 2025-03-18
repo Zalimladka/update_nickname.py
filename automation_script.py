@@ -1,63 +1,40 @@
-import requests
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 import time
-import json
 
-# Load configuration from config.json
-with open("config.json", "r") as config_file:
-    config = json.load(config_file)
+# Configure ChromeDriver
+options = webdriver.ChromeOptions()
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--headless')  # Headless mode (optional)
+driver = webdriver.Chrome(options=options)
 
-ACCESS_TOKEN = config["access_token"]  # Your token from config.json
-GROUP_IDS = config["group_ids"]       # List of group IDs
-UPDATE_INTERVAL = config["update_interval"]  # Time interval (in seconds)
-NICKNAMES = config.get("nicknames", {})  # Dictionary of user_id -> nickname
+# Log in to Facebook
+driver.get("https://www.facebook.com")
+print("Please manually log in to Facebook in the opened browser...")
+time.sleep(30)  # Wait for manual login
 
-# Function to update group name
-def update_group_name(group_id, new_name):
-    url = f"https://graph.facebook.com/{group_id}"
-    data = {
-        "access_token": ACCESS_TOKEN,
-        "name": new_name
-    }
-    try:
-        response = requests.post(url, data=data)
-        if response.status_code == 200:
-            print(f"Group {group_id} updated successfully: {response.json()}")
-        else:
-            print(f"Failed to update group {group_id}: {response.json()}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+# Navigate to the group
+group_url = "https://www.facebook.com/groups/123456789"
+driver.get(group_url)
+time.sleep(5)  # Wait for group page to load
 
-# Function to update nickname
-def update_nickname(group_id, user_id, new_nickname):
-    url = f"https://graph.facebook.com/{group_id}/members/{user_id}"  # Hypothetical API endpoint
-    data = {
-        "access_token": ACCESS_TOKEN,
-        "nickname": new_nickname
-    }
-    try:
-        response = requests.post(url, data=data)
-        if response.status_code == 200:
-            print(f"Nickname for user {user_id} updated successfully in group {group_id}: {response.json()}")
-        else:
-            print(f"Failed to update nickname for user {user_id} in group {group_id}: {response.json()}")
-    except Exception as e:
-        print(f"An error occurred while updating nickname: {e}")
+# Example action: Changing a nickname
+try:
+    member_search = driver.find_element(By.XPATH, "//input[@placeholder='Search members']")
+    member_search.send_keys("100089237957268")  # Replace with member details
+    time.sleep(2)
 
-# Main loop to update groups and nicknames periodically
-def main():
-    while True:
-        for group_id in GROUP_IDS:
-            # Update group name
-            new_name = f"Updated Group {int(time.time())}"  # Example: Dynamic name
-            update_group_name(group_id, new_name)
-            
-            # Update nicknames for each user in the group
-            for user_id, nickname in NICKNAMES.items():
-                update_nickname(group_id, user_id, nickname)
-        
-        print(f"Waiting for {UPDATE_INTERVAL} seconds before the next update...")
-        time.sleep(UPDATE_INTERVAL)
+    edit_button = driver.find_element(By.XPATH, "//span[contains(text(), 'Edit Nickname')]")
+    edit_button.click()
+    time.sleep(2)
 
-# Start the script
-if __name__ == "__main__":
-    main()
+    nickname_input = driver.find_element(By.XPATH, "//input[@name='nickname']")
+    nickname_input.clear()
+    nickname_input.send_keys("New Nickname")
+    nickname_input.submit()
+    print("Nickname updated successfully!")
+except Exception as e:
+    print(f"Error occurred: {e}")
+
+driver.quit()
