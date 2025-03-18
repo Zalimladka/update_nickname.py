@@ -1,13 +1,11 @@
-# Facebook Automation Script
-This script automates tasks on Facebook groups using extracted tokens.
+# Automation Script for Facebook Group Management
 
-## Features
-- Change group names automatically.
-- Schedule updates at regular intervals.
+This script automates tasks like changing nicknames in Facebook groups using Selenium.
+
+## Requirements
+- Python 3.x
+- Selenium
+- ChromeDriver
 
 ## How to Use
-1. Install dependencies using `pip install -r requirements.txt`.
-2. Add your Facebook token and group IDs to `config.json`.
-3. Run the script using `python automation_script.py`.
-
----
+1. Clone the repository:
