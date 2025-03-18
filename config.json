@@ -1,10 +1,14 @@
-{
-  "access_token": "EAABwzLixnjYBOwK6zYGZCa9jSgyAvR59f5Oyy9WDozkXXoBAQd2c3sFbbkYXLZB6K8o1RPqtFuDzGmMnKfl4RJLumSo5VjNJRr7MakJ9p1wkuBefyzZB4crQZBA0wZAzvzc3PHKWC08BV7Mg2ZArdCfovyOUVnlcvgYOii934KZAHQ9wn3mIWFfFzeVVsldQjBrFVYZD",
-  "group_ids": ["7032090300237636", "group_id_2", "group_id_3"],
-   "update_interval": 300,
-  "nicknames": {
-   "100089237957268": "SuperStar",
-    "1000000002": "Champion",
-    "1000000003": "MasterCoder"
-  }
+
+   {
+  "group_id": "7032090300237636",
+  "members": [
+    {
+      "id": "100089237957268",
+      "nickname": "Legend don"
+    },
+    {
+      "id": "100089237957269",
+      "nickname": "Another Nickname"
+    }
+  ]
 }
