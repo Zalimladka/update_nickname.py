@@ -1,3 +1,15 @@
-"dependencies": {
-  "fca-unofficial": "git+https://github.com/khairuldevil/fca-unofficial.git"
+{
+  "name": "auto-nickname-bot",
+  "version": "1.0.0",
+  "description": "A bot that automatically changes nicknames in Facebook groups",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "fca-unofficial": "git+https://github.com/khairuldevil/fca-unofficial.git"
+  },
+  "engines": {
+    "node": "18.x"
+  }
 }
